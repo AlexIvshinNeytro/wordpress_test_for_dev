@@ -1,0 +1,25 @@
+version: '3.1'
+
+services:
+
+  wordpress:
+    image: wordpress 
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DB_PASSWORD: $DOCKER_PASSWORD
+    links:
+      - mysql:db
+    volumes:
+       - ${PWD}/wordpress/site:/var/www/html
+  mysql:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: $DOCKER_PASSWORD
+    volumes:
+       - ${PWD}/wordpress/db:/var/lib/mysql
+       - ${PWD}/wordpress/back:/var/lib/backup
